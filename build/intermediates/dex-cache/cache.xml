@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\study_res\waibao\NoteChar\NoteChar\app\libs\universal-image-loader-1.9.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
+        <dex dex="D:\study_res\waibao\NoteChar\NoteChar\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.5_e24683c724cf8d62fb389585546da5cda72ab6b7.jar" />
+    </item>
+
+</items>

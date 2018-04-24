@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.leon:lfilepickerlibrary-1.7.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/b109a74cf40e4132865c3cc915c54e1f23a710ec/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/b109a74cf40e4132865c3cc915c54e1f23a710ec/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.leon/lfilepickerlibrary/1.7.0/f7c598d445cc2a8c52fbfc8255445fb61ca0f1d3/lfilepickerlibrary-1.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

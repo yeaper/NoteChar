@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:id="@+id/res_file_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/file_img"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/res_file_download"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/download"/>
+
+        <TextView
+            android:id="@+id/res_file_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/res_file_img"
+            android:layout_toLeftOf="@+id/res_file_download"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignTop="@+id/res_file_img"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            tools:text="name"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/res_file_upload_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_99"
+            tools:text="2018-05-01 14:14:35"
+            android:layout_toRightOf="@+id/res_file_img"
+            android:layout_below="@+id/res_file_name"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/res_file_download_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/color_99"
+            tools:text="已下载10次"
+            android:layout_toRightOf="@+id/res_file_upload_time"
+            android:layout_marginLeft="7dp"
+            android:layout_alignBottom="@+id/res_file_upload_time"/>
+
+        <TextView
+            android:id="@+id/res_file_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            tools:text="英语园地"
+            android:layout_below="@+id/res_file_upload_time"
+            android:layout_alignLeft="@+id/res_file_upload_time"
+            android:layout_marginTop="4dp"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divide_line_color"/>
+</LinearLayout>
