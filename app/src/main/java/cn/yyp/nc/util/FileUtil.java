@@ -39,6 +39,21 @@ public class FileUtil {
     }
 
     /**
+     * 获取文件名
+     * @param path
+     * @return
+     */
+    public static String getFileName(String path, String suffix){
+        int start = path.lastIndexOf("/");
+        int end = path.lastIndexOf(".");
+        if(start!=-1 && end!=-1){
+            return path.substring(start+1,end)+suffix;
+        }else{
+            return "";
+        }
+    }
+
+    /**
      * 上传文件
      * @param path
      */

@@ -16,6 +16,8 @@ public class C {
 
     public static final int REQUEST_CODE_IMAGE = 0x01;
     public static final int REQUEST_CODE_AVATAR = 0x02;
+    public static final int REQUEST_CODE_VOICE = 0x03;
+    public static final int REQUEST_CODE_VIDEO = 0x04;
 
     public static class RecordState{
         public static final int START = 1;

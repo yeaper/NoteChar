@@ -38,9 +38,6 @@ public class VideoManager implements SurfaceHolder.Callback {
     private int mCameraFacing = Camera.CameraInfo.CAMERA_FACING_BACK;//默认后置摄像头
     private static final SparseIntArray orientations = new SparseIntArray();//手机旋转对应的调整角度
 
-    private String filePath;
-    private String fileName;
-
     static {
         orientations.append(Surface.ROTATION_0, 90);
         orientations.append(Surface.ROTATION_90, 0);
@@ -113,9 +110,7 @@ public class VideoManager implements SurfaceHolder.Callback {
     /**
      * 开始录制
      */
-    public void startRecord(String filePath,String fileName) {
-        this.filePath = filePath;
-        this.fileName = fileName;
+    public void startRecord(String fileUrl) {
         if (mCamera != null) {
             mCamera.stopPreview();
             mCamera.unlock();
@@ -139,9 +134,9 @@ public class VideoManager implements SurfaceHolder.Callback {
             mRecorder.setVideoSize(640, 480);//最高只能设置640x480
             mRecorder.setVideoEncodingBitRate(3 * 1024 * 1024);
             mRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
-            if (filePath != null) {
+            if (fileUrl != null) {
                 //设置输出文件的路径
-                mRecorder.setOutputFile(filePath+fileName);
+                mRecorder.setOutputFile(fileUrl);
                 //准备录制
                 mRecorder.prepare();
                 //开始录制
@@ -169,7 +164,7 @@ public class VideoManager implements SurfaceHolder.Callback {
         }
 
         if(videoRecorderListener!=null){
-            videoRecorderListener.stop(filePath, fileName);
+            videoRecorderListener.stop();
         }
     }
 
@@ -262,6 +257,6 @@ public class VideoManager implements SurfaceHolder.Callback {
 
     public interface IVideoRecorderListener{
         void start();
-        void stop(String filePath, String fileName);
+        void stop();
     }
 }
