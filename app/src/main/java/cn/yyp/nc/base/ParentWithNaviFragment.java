@@ -1,5 +1,6 @@
 package cn.yyp.nc.base;
 
+import android.app.ProgressDialog;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,8 @@ public abstract class ParentWithNaviFragment extends BaseFragment {
     public TextView tv_right;
     public ImageView tv_left;
     public LinearLayout ll_navi;
+
+    ProgressDialog progressDialog;
 
     /**
      * 初始化导航条
@@ -132,6 +135,21 @@ public abstract class ParentWithNaviFragment extends BaseFragment {
 
     protected <T extends View> T getView(int id) {
         return (T) rootView.findViewById(id);
+    }
+
+    public void showPD(String msg) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(msg);
+        progressDialog.show();
+    }
+
+    public void hidePD(){
+        if(progressDialog!= null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 
 }

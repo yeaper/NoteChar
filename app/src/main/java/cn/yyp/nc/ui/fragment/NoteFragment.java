@@ -32,6 +32,9 @@ import cn.yyp.nc.adapter.SearchResFileAdapter;
 import cn.yyp.nc.base.ParentWithNaviFragment;
 import cn.yyp.nc.model.ResFile;
 import cn.yyp.nc.model.global.C;
+import cn.yyp.nc.ui.publish_note.CreateNoteImgTxtActivity;
+import cn.yyp.nc.ui.publish_note.CreateNoteVideoActivity;
+import cn.yyp.nc.ui.publish_note.CreateNoteVoiceActivity;
 import cn.yyp.nc.util.FileUtil;
 import cn.yyp.nc.util.Util;
 
@@ -46,8 +49,6 @@ public class NoteFragment extends ParentWithNaviFragment {
     FrameLayout res_root;
     @Bind(R.id.et_file_name)
     EditText et_file_name;
-    @Bind(R.id.fab_upload_res)
-    FloatingActionButton upload_res;
     @Bind(R.id.sw_refresh)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.rc_view)
@@ -55,11 +56,7 @@ public class NoteFragment extends ParentWithNaviFragment {
     SearchResFileAdapter adapter;
     List<ResFile> datas = new ArrayList<>();
 
-    int res_type = C.NoteType.Img_Txt;
     private ListPopupWindow mPopup;
-
-    ProgressDialog progressDialog;
-
 
     @Override
     protected String title() {
@@ -88,7 +85,7 @@ public class NoteFragment extends ParentWithNaviFragment {
         });
     }
 
-    @OnClick({R.id.btn_search, R.id.fab_upload_res})
+    @OnClick({R.id.btn_search, R.id.fab_make_note})
     public void click(View v){
         switch (v.getId()){
             case R.id.btn_search:
@@ -99,8 +96,8 @@ public class NoteFragment extends ParentWithNaviFragment {
                     showToast("请输入搜索内容");
                 }
                 break;
-            case R.id.fab_upload_res:
-                showUploadType();
+            case R.id.fab_make_note:
+                showNoteType();
                 break;
         }
     }
@@ -116,12 +113,11 @@ public class NoteFragment extends ParentWithNaviFragment {
         return false;
     }
 
-    private static final int SELECT_FILE_CODE = 0x01;
 
     /**
-     * 选择上传资源类型
+     * 选择笔记类型
      */
-    public void showUploadType(){
+    public void showNoteType(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), 3);
         builder.setTitle("笔记类型");
         // 设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
@@ -129,15 +125,17 @@ public class NoteFragment extends ParentWithNaviFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                res_type = FileUtil.getNoteType(which);
-                // 选择文件
-                new LFilePicker().withSupportFragment(NoteFragment.this)
-                        .withRequestCode(SELECT_FILE_CODE)
-                        .withIconStyle(Constant.ICON_STYLE_BLUE)
-                        .withTitle("选择文件")
-                        .withMaxNum(1)
-                        .start();
-
+                switch (which){
+                    case 0:
+                        startActivity(CreateNoteImgTxtActivity.class, null);
+                        break;
+                    case 1:
+                        startActivity(CreateNoteVoiceActivity.class, null);
+                        break;
+                    case 2:
+                        startActivity(CreateNoteVideoActivity.class, null);
+                        break;
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -152,22 +150,13 @@ public class NoteFragment extends ParentWithNaviFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_FILE_CODE) {
-                List<String> list = data.getStringArrayListExtra(Constant.RESULT_INFO);
-                if(list.size() > 0){
-                    showPD();
-                }
-            }
-        }
-    }
-
-    private void showPD() {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("正在上传，请稍后……");
-        progressDialog.show();
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == SELECT_FILE_CODE) {
+//                List<String> list = data.getStringArrayListExtra(Constant.RESULT_INFO);
+//                if(list.size() > 0){
+//                    showPD();
+//                }
+//            }
+//        }
     }
 }

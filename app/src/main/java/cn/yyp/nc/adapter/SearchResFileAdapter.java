@@ -14,6 +14,7 @@ import butterknife.Bind;
 import cn.yyp.nc.R;
 import cn.yyp.nc.model.ResFile;
 import cn.yyp.nc.util.FileUtil;
+import cn.yyp.nc.util.Util;
 
 
 /**
@@ -81,7 +82,7 @@ public class SearchResFileAdapter extends RecyclerView.Adapter<RecyclerView.View
                 file_download_count.setVisibility(View.VISIBLE );
                 file_download_count.setText("已下载99+次");
             }
-            file_type.setText(FileUtil.getNoteTypeName(resFile.getResType()));
+            file_type.setText(Util.getNoteTypeName(resFile.getResType()));
         }
     }
 

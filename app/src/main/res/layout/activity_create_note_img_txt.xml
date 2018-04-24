@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/theme_bg_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <include layout="@layout/include_navi"/>
+
+        <EditText
+            android:id="@+id/et_note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:padding="15dp"
+            android:hint="标题 (最多30字)"
+            android:maxLength="30"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divide_line_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white">
+            <EditText
+                android:id="@+id/et_note_content"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/white"
+                android:gravity="left"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:padding="15dp"
+                android:hint="此处输入内容..."
+                android:lineSpacingMultiplier="1.2"
+                android:maxLength="400"/>
+
+            <TextView
+                android:id="@+id/et_note_content_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="12sp"
+                android:textColor="@color/color_99"
+                android:text="0/400字"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/color_99"
+            android:text="最多3张"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp">
+            <ImageView
+                android:id="@+id/et_note_image_one"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/add"/>
+            <ImageView
+                android:id="@+id/et_note_image_two"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/et_note_image_three"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="15dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/style_text_white"
+            android:background="@drawable/btn_login_selector"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="20dp"
+            android:text="保存" />
+    </LinearLayout>
+</ScrollView>

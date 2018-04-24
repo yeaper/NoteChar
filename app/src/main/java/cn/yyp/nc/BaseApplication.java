@@ -2,12 +2,10 @@ package cn.yyp.nc;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.imnjh.imagepicker.PickerConfig;
+import com.imnjh.imagepicker.SImagePicker;
 import com.orhanobut.logger.Logger;
-import com.yuyh.library.imgsel.ISNav;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +15,7 @@ import java.util.List;
 
 import cn.yyp.nc.base.UniversalImageLoader;
 import cn.bmob.newim.BmobIM;
+import cn.yyp.nc.util.MyImageLoader;
 
 //TODO 集成：1.7、自定义Application，并在AndroidManifest.xml中配置
 public class BaseApplication extends Application {
@@ -60,14 +59,13 @@ public class BaseApplication extends Application {
             BmobIM.registerDefaultMessageHandler(new DemoMessageHandler(this));
         }
         Logger.init("Demo");
+
+
+        SImagePicker.init(new PickerConfig.Builder().setAppContext(this)
+                .setImageLoader(new MyImageLoader())
+                .setToolbaseColor(getResources().getColor(R.color.colorPrimary))
+                .build());
         UniversalImageLoader.initImageLoader(this);
-        // 自定义图片加载器
-        ISNav.getInstance().init(new com.yuyh.library.imgsel.common.ImageLoader() {
-            @Override
-            public void displayImage(Context context, String path, ImageView imageView) {
-                ImageLoader.getInstance().displayImage("file://" + path, imageView);
-            }
-        });
     }
 
     /**

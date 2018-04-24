@@ -94,7 +94,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="com.yuyh.easyadapter:library-1.1.0" level="project" />
+    <orderEntry type="library" exported="" name="com.github.martin90s:ImagePicker-v1.3.2" level="project" />
     <orderEntry type="library" exported="" name="com.orhanobut:logger-1.4" level="project" />
     <orderEntry type="library" exported="" name="com.github.promeg:tinypinyin:1.0.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.leon:lfilepickerlibrary-1.7.0" level="project" />
@@ -107,7 +107,6 @@
     <orderEntry type="library" exported="" name="com.jakewharton:butterknife:7.0.1@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-fragment-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-media-compat-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="com.yuyh.imgsel:library-2.0.2" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:D.\workspace_android\NoteChar\app\libs\universal-image-loader-1.9.5.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="cn.bmob.android:bmob-im-2.1.0" level="project" />
@@ -115,6 +114,7 @@
     <orderEntry type="library" exported="" name="com.android.support:design-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="cn.bmob.android:bmob-sdk-3.5.6" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-25.3.1" level="project" />
+    <orderEntry type="library" exported="" name="cn.jzvd:jiaozivideoplayer-6.2.9" level="project" />
     <orderEntry type="library" exported="" name="org.greenrobot:eventbus:3.0.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-25.3.1" level="project" />

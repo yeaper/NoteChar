@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/theme_bg_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <include layout="@layout/include_navi"/>
+
+        <EditText
+            android:id="@+id/voice_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:padding="15dp"
+            android:hint="标题 (最多30字)"
+            android:maxLength="30"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divide_line_color"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/voice_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                android:textColor="@color/dialog_color_title"
+                android:text="时长：0:0:0"/>
+            <Button
+                android:id="@+id/btn_record_play_stop"
+                style="@style/style_text_white"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_login_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:text="开始录制"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divide_line_color"/>
+
+        <RelativeLayout
+            android:id="@+id/voice_play_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/voice_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/btn_play_stop"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/play"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/style_text_white"
+            android:background="@drawable/btn_login_selector"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="20dp"
+            android:text="保存" />
+    </LinearLayout>
+</ScrollView>

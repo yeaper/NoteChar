@@ -1,5 +1,8 @@
 package cn.yyp.nc.util;
 
+import android.content.Context;
+import android.os.Environment;
+
 import java.io.File;
 
 import cn.bmob.v3.listener.UploadFileListener;
@@ -15,39 +18,24 @@ import cn.yyp.nc.model.i.IUploadFileListener;
 public class FileUtil {
 
     /**
-     * 获取笔记类型
-     * @param which
+     * 获取app文件缓存路径
+     *
+     * @param context
      * @return
      */
-    public static int getNoteType(int which){
-        switch (which){
-            case 0:
-                return C.NoteType.Img_Txt;
-            case 1:
-                return C.NoteType.Voice;
-            case 2:
-                return C.NoteType.Video;
-            default:
-                return C.NoteType.Img_Txt;
+    public static String getDiscFileDir(Context context) {
+        String filePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            filePath = context.getExternalFilesDir(null).getAbsolutePath() + "/temp";
+        } else {
+            filePath = context.getFilesDir().getAbsolutePath() + "/temp";
         }
-    }
-
-    /**
-     * 获取笔记类型名
-     * @param which
-     * @return
-     */
-    public static String getNoteTypeName(int which){
-        switch (which){
-            case 1:
-                return C.note_type[0];
-            case 2:
-                return C.note_type[1];
-            case 3:
-                return C.note_type[2];
-            default:
-                return C.note_type[0];
+        File file = new File(filePath);
+        if(!file.exists()){
+            file.mkdirs();
         }
+        return filePath;
     }
 
     /**

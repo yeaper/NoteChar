@@ -14,4 +14,16 @@ public class C {
         public static final int Video = 3;
     }
 
+    public static final int REQUEST_CODE_IMAGE = 0x01;
+    public static final int REQUEST_CODE_AVATAR = 0x02;
+
+    public static class RecordState{
+        public static final int START = 1;
+        public static final int STOP = 2;
+    }
+
+    public static class PlayState{
+        public static final int START = 1;
+        public static final int STOP = 2;
+    }
 }

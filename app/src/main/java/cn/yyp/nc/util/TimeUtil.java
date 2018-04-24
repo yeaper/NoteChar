@@ -81,4 +81,31 @@ public class TimeUtil {
         return format.format(new Date(time));
     }
 
+    //将秒数转换成时间显示格式
+    public static String showTimeCount(int second) {
+        int h = 0;
+        int d = 0;
+        int s = 0;
+        int temp = second % 3600;
+        if (second > 3600) {
+            h = second / 3600;
+            if (temp != 0) {
+                if (temp > 60) {
+                    d = temp / 60;
+                    if (temp % 60 != 0) {
+                        s = temp % 60;
+                    }
+                } else {
+                    s = temp;
+                }
+            }
+        } else {
+            d = second / 60;
+            if (second % 60 != 0) {
+                s = second % 60;
+            }
+        }
+
+        return h + ":" + d + ":" + s + "";
+    }
 }

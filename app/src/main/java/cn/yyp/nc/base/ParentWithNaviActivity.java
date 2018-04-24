@@ -1,6 +1,7 @@
 package cn.yyp.nc.base;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,6 +23,8 @@ public abstract class ParentWithNaviActivity extends BaseActivity {
     public TextView tv_title;
     public ImageView tv_left;
     public TextView tv_right;
+
+    ProgressDialog progressDialog;
 
     /**导航栏标题:必填项
      * @return
@@ -155,5 +158,20 @@ public abstract class ParentWithNaviActivity extends BaseActivity {
 
     public String getCurrentUid(){
         return BmobUser.getCurrentUser(User.class).getObjectId();
+    }
+
+    public void showPD(String msg) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage(msg);
+        progressDialog.show();
+    }
+
+    public void hidePD(){
+        if(progressDialog!= null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
     }
 }

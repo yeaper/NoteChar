@@ -22,6 +22,7 @@
             android:hint="写下自己的意见..."
             android:gravity="left|top"
             android:maxLength="200"
+            android:lineSpacingMultiplier="1.2"
             android:background="@color/white"/>
 
     </LinearLayout>

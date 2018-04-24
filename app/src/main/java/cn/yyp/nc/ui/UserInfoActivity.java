@@ -1,7 +1,7 @@
 package cn.yyp.nc.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,17 +13,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.yuyh.library.imgsel.ISNav;
-import com.yuyh.library.imgsel.config.ISListConfig;
+import com.imnjh.imagepicker.SImagePicker;
+import com.imnjh.imagepicker.activity.PhotoPickerActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.yyp.nc.R;
 import cn.yyp.nc.base.ImageLoaderFactory;
@@ -34,6 +34,7 @@ import cn.yyp.nc.bean.User;
 import cn.yyp.nc.event.AvatarUpdateEvent;
 import cn.yyp.nc.event.RetUsernameEvent;
 import cn.yyp.nc.model.UserModel;
+import cn.yyp.nc.model.global.C;
 import cn.yyp.nc.model.i.IUploadFileListener;
 import cn.yyp.nc.util.FileUtil;
 import cn.bmob.newim.BmobIM;
@@ -64,8 +65,6 @@ public class UserInfoActivity extends ParentWithNaviActivity {
     @Bind(R.id.btn_chat)
     Button btn_chat;
 
-    ProgressDialog progressDialog;
-
     //用户
     User user;
     //用户信息
@@ -81,7 +80,6 @@ public class UserInfoActivity extends ParentWithNaviActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        ButterKnife.bind(this);
         //导航栏
         initNaviView();
         //用户
@@ -150,44 +148,22 @@ public class UserInfoActivity extends ParentWithNaviActivity {
      * 选择头像
      */
     public void selectAvatar(){
-        // 配置图片选择器
-        ISListConfig config = new ISListConfig.Builder()
-                // 是否多选, 默认true
-                .multiSelect(false)
-                // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
-                .rememberSelected(false)
-                // “确定”按钮背景色
-                .btnBgColor(Color.GRAY)
-                // “确定”按钮文字颜色
-                .btnTextColor(Color.BLUE)
-                // 使用沉浸式状态栏
-                .statusBarColor(getResources().getColor(R.color.colorPrimaryDark))
-                // 返回图标ResId
-                .backResId(R.mipmap.base_action_bar_back_bg_n)
-                // 标题
-                .title("选择头像")
-                // 标题文字颜色
-                .titleColor(Color.WHITE)
-                // TitleBar背景色
-                .titleBgColor(getResources().getColor(R.color.colorPrimary))
-                // 裁剪大小。needCrop为true的时候配置
-                .cropSize(1, 1, 200, 200)
-                .needCrop(true)
-                // 第一个是否显示相机，默认true
-                .needCamera(true)
-                // 最大选择图片数量，默认9
-                .maxNum(1)
-                .build();
-
-        // 跳转到图片选择器
-        ISNav.getInstance().toListActivity(this, config, 0x11);
+        SImagePicker
+                .from(this)
+                .maxCount(1)
+                .rowCount(3)
+                .pickMode(SImagePicker.MODE_AVATAR)
+                .showCamera(true)
+                .pickText(R.string.finish)
+                .cropFilePath(FileUtil.getDiscFileDir(this)+ File.separator+"avatar.png")
+                .forResult(C.REQUEST_CODE_AVATAR);
     }
 
     /**
      * 上传头像
      */
     private void uploadAvatar(String path){
-        showPD();
+        showPD("正在上传，请稍等...");
         FileUtil.uploadFile(path, new IUploadFileListener() {
             @Override
             public void uploading(int progress) {
@@ -201,7 +177,7 @@ public class UserInfoActivity extends ParentWithNaviActivity {
                 newUser.update(bmobUser.getObjectId(),new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
-                        progressDialog.dismiss();
+                        hidePD();
                         if(e==null){
                             showToast("头像修改成功");
                             // 本地更新头像
@@ -216,27 +192,18 @@ public class UserInfoActivity extends ParentWithNaviActivity {
 
             @Override
             public void uploadError(String errorMsg) {
-                progressDialog.dismiss();
+                hidePD();
                 showToast("头像修改失败："+ errorMsg);
             }
         });
-    }
-
-    private void showPD() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//转盘
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage("正在上传，请稍后……");
-        progressDialog.show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 图片选择结果回调
-        if (requestCode == 0x11 && resultCode == RESULT_OK && data != null) {
-            List<String> pathList = data.getStringArrayListExtra("result");
+        if (resultCode == Activity.RESULT_OK && requestCode == C.REQUEST_CODE_AVATAR) {
+            List<String> pathList = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION);
             for (String path : pathList) {
                 uploadAvatar(path);
             }

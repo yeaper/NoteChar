@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_upload_res"
+        android:id="@+id/fab_make_note"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|right"
@@ -67,7 +67,7 @@
         android:layout_marginRight="30dp"
         android:clickable="true"
         app:fabSize="mini"
-        android:src="@drawable/share"
+        android:src="@drawable/write"
         app:backgroundTint="@color/colorPrimary"/>
 
 </FrameLayout>

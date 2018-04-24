@@ -20,7 +20,6 @@ public class SetActivity extends ParentWithNaviActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set);
-        ButterKnife.bind(this);
         initNaviView();
     }
 

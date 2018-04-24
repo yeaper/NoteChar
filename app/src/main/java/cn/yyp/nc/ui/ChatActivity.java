@@ -1,5 +1,6 @@
 package cn.yyp.nc.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -27,9 +28,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.imnjh.imagepicker.SImagePicker;
+import com.imnjh.imagepicker.activity.PhotoPickerActivity;
 import com.orhanobut.logger.Logger;
-import com.yuyh.library.imgsel.ISNav;
-import com.yuyh.library.imgsel.config.ISListConfig;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ import cn.yyp.nc.R;
 import cn.yyp.nc.adapter.ChatAdapter;
 import cn.yyp.nc.adapter.OnRecyclerViewListener;
 import cn.yyp.nc.base.ParentWithNaviActivity;
+import cn.yyp.nc.model.global.C;
 import cn.yyp.nc.util.Util;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMAudioMessage;
@@ -428,37 +430,14 @@ public class ChatActivity extends ParentWithNaviActivity implements MessageListH
             return;
         }
 
-        // 配置图片选择器
-        ISListConfig config = new ISListConfig.Builder()
-                // 是否多选, 默认true
-                .multiSelect(false)
-                // 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
-                .rememberSelected(false)
-                // “确定”按钮背景色
-                .btnBgColor(Color.GRAY)
-                // “确定”按钮文字颜色
-                .btnTextColor(Color.BLUE)
-                // 使用沉浸式状态栏
-                .statusBarColor(getResources().getColor(R.color.colorPrimaryDark))
-                // 返回图标ResId
-                .backResId(R.mipmap.base_action_bar_back_bg_n)
-                // 标题
-                .title("选择图片")
-                // 标题文字颜色
-                .titleColor(Color.WHITE)
-                // TitleBar背景色
-                .titleBgColor(getResources().getColor(R.color.colorPrimary))
-                // 裁剪大小。needCrop为true的时候配置
-                .cropSize(1, 1, 200, 200)
-                .needCrop(true)
-                // 第一个是否显示相机，默认true
-                .needCamera(true)
-                // 最大选择图片数量，默认9
-                .maxNum(1)
-                .build();
-
-        // 跳转到图片选择器
-        ISNav.getInstance().toListActivity(this, config, 0x11);
+        SImagePicker
+                .from(this)
+                .maxCount(1)
+                .rowCount(3)
+                .pickMode(SImagePicker.MODE_IMAGE)
+                .showCamera(true)
+                .pickText(R.string.finish)
+                .forResult(C.REQUEST_CODE_IMAGE);
     }
 
     @OnClick(R.id.tv_camera)
@@ -483,8 +462,8 @@ public class ChatActivity extends ParentWithNaviActivity implements MessageListH
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 图片选择结果回调
-        if (requestCode == 0x11 && resultCode == RESULT_OK && data != null) {
-            List<String> pathList = data.getStringArrayListExtra("result");
+        if (resultCode == Activity.RESULT_OK && requestCode == C.REQUEST_CODE_IMAGE) {
+            List<String> pathList = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION);
             for (String path : pathList) {
                 sendLocalImageMessage(path);
             }

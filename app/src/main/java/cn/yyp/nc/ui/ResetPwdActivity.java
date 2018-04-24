@@ -30,7 +30,6 @@ public class ResetPwdActivity extends ParentWithNaviActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_pwd);
-        ButterKnife.bind(this);
         initNaviView();
     }
 

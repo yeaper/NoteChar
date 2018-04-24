@@ -33,6 +33,7 @@
     <string name="set_vibrate">震动</string>
     <string name="logout">退出登陆</string>
 
+    <string name="finish">完成</string>
     <string name="longclick_speak">长按说话</string>
     <string name="picture">图片</string>
     <string name="camera">拍摄</string>
