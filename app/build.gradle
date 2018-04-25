@@ -63,4 +63,5 @@ dependencies {
     compile 'cn.jzvd:jiaozivideoplayer:6.2.9' //视频播放器
     compile 'org.greenrobot:greendao:3.1.0' //greenDao
     compile 'com.yanzhenjie:recyclerview-swipe:1.1.4' //列表左右滑菜单
+    compile 'com.bm.photoview:library:1.4.1' //图片控件
 }

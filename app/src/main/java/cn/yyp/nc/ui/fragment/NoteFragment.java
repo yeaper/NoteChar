@@ -2,6 +2,7 @@ package cn.yyp.nc.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -94,13 +95,19 @@ public class NoteFragment extends ParentWithNaviFragment {
                 bundle.putSerializable("note", noteAdapter.getDatas().get(position));
                 switch (noteAdapter.getDatas().get(position).getNoteType()){
                     case C.NoteType.Img_Txt:
-                        startActivity(ShowNoteImgTxtActivity.class, bundle);
+                        Intent goImgTxt = new Intent(getActivity(), ShowNoteImgTxtActivity.class);
+                        goImgTxt.putExtras(bundle);
+                        startActivity(goImgTxt);
                         break;
                     case C.NoteType.Voice:
-                        startActivity(ShowNoteVoiceActivity.class, bundle);
+                        Intent goVoice = new Intent(getActivity(), ShowNoteVoiceActivity.class);
+                        goVoice.putExtras(bundle);
+                        startActivity(goVoice);
                         break;
                     case C.NoteType.Video:
-                        startActivity(ShowNoteVideoActivity.class, bundle);
+                        Intent goVideo = new Intent(getActivity(), ShowNoteVideoActivity.class);
+                        goVideo.putExtras(bundle);
+                        startActivity(goVideo);
                         break;
 
                 }

@@ -3,6 +3,15 @@
 
     <item
         is-multidex="false"
+        jar="C:\Users\yeape\.android\build-cache\fcf6ec8963fdf945682b113152ec7c85b37da5ff\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="772452261af8eb9c1df9ae71fb621afe393277da">
+        <dex dex="D:\workspace_android\NoteChar\app\build\intermediates\pre-dexed\debug\classes_0e4ae6a80b34ddaa7beb0f2b4d61bd4ee682ba31.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\yeape\.android\build-cache\a50acd8942d595e7a34b871b563caccc19fe047b\output\jars\classes.jar"
         jumboMode="false"
         optimize="true"
