@@ -60,6 +60,7 @@ dependencies {
     compile 'com.leon:lfilepickerlibrary:1.7.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.martin90s:ImagePicker:v1.3.2'
-    compile 'cn.jzvd:jiaozivideoplayer:6.2.9'
-    compile 'org.greenrobot:greendao:3.1.0'
+    compile 'cn.jzvd:jiaozivideoplayer:6.2.9' //视频播放器
+    compile 'org.greenrobot:greendao:3.1.0' //greenDao
+    compile 'com.yanzhenjie:recyclerview-swipe:1.1.4' //列表左右滑菜单
 }

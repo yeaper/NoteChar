@@ -50,7 +50,18 @@ public class NoteManager {
     public List<Note> queryNote(String title){
         return noteDao.queryBuilder()
                 .orderDesc(NoteDao.Properties.CreateTime)//通过 创建时间 这个属性进行降序排序
-                .where(NoteDao.Properties.Title.eq(title))//数据筛选
+                .where(NoteDao.Properties.Title.like("%"+title+"%"))//数据筛选,模糊查询
+                .build()
+                .list();
+    }
+
+    /**
+     * 查询全部笔记
+     *
+     */
+    public List<Note> queryAllNote(){
+        return noteDao.queryBuilder()
+                .orderDesc(NoteDao.Properties.CreateTime)//通过 创建时间 这个属性进行降序排序
                 .build()
                 .list();
     }

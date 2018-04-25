@@ -40,3 +40,10 @@
 -keep class com.koushikdutta.async.** { *;}
 
 -ignorewarnings -keep class * { public private *; }
+
+
+-keepclasseswithmembers class android.support.v7.widget.RecyclerView$ViewHolder {
+   public final View *;
+}
+-dontwarn com.yanzhenjie.recyclerview.swipe.**
+-keep class com.yanzhenjie.recyclerview.swipe.** {*;}

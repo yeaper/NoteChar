@@ -30,4 +30,6 @@
     <dimen name="margin_30">30dp</dimen>
     <dimen name="margin_40">40dp</dimen>
 
+    <dimen name="menu_width">90dp</dimen>
+
 </resources>

@@ -22,6 +22,7 @@
     <color name="base_bg">#f4f6f6</color>
     <color name="dialog_color_title">#f82c22</color>
     <color name="guide_color">#898989</color>
+    <color name="star_bg">#ffce7b</color>
 
     <color name="common_bg">#fcfcfc</color>
     <color name="color_99">#999999</color>
@@ -33,5 +34,6 @@
     <color name="black">#000000</color>
 
     <color name="divide_line_color">#f0f0f0</color>
+    <color name="top_bg_color">#90d7ec</color>
 
 </resources>

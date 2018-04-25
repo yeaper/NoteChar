@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.yanzhenjie:recyclerview-swipe-1.1.4">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/a50acd8942d595e7a34b871b563caccc19fe047b/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/a50acd8942d595e7a34b871b563caccc19fe047b/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.yanzhenjie/recyclerview-swipe/1.1.4/ef7f536b9958d483cfc452673dad3972bcd894ec/recyclerview-swipe-1.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
