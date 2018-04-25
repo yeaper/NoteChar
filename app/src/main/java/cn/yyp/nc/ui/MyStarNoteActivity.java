@@ -1,5 +1,6 @@
 package cn.yyp.nc.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,10 @@ import cn.yyp.nc.base.ParentWithNaviActivity;
 import cn.yyp.nc.event.UpdateNoteListEvent;
 import cn.yyp.nc.greendao.Note;
 import cn.yyp.nc.greendao.NoteManager;
+import cn.yyp.nc.model.global.C;
+import cn.yyp.nc.ui.show_note.ShowNoteImgTxtActivity;
+import cn.yyp.nc.ui.show_note.ShowNoteVideoActivity;
+import cn.yyp.nc.ui.show_note.ShowNoteVoiceActivity;
 
 public class MyStarNoteActivity extends ParentWithNaviActivity {
 
@@ -53,7 +58,26 @@ public class MyStarNoteActivity extends ParentWithNaviActivity {
         recyclerView.setSwipeItemClickListener(new SwipeItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle(); //携带笔记对象
+                bundle.putSerializable("note", noteAdapter.getDatas().get(position));
+                switch (noteAdapter.getDatas().get(position).getNoteType()){
+                    case C.NoteType.Img_Txt:
+                        Intent goImgTxt = new Intent(MyStarNoteActivity.this, ShowNoteImgTxtActivity.class);
+                        goImgTxt.putExtras(bundle);
+                        startActivity(goImgTxt);
+                        break;
+                    case C.NoteType.Voice:
+                        Intent goVoice = new Intent(MyStarNoteActivity.this, ShowNoteVoiceActivity.class);
+                        goVoice.putExtras(bundle);
+                        startActivity(goVoice);
+                        break;
+                    case C.NoteType.Video:
+                        Intent goVideo = new Intent(MyStarNoteActivity.this, ShowNoteVideoActivity.class);
+                        goVideo.putExtras(bundle);
+                        startActivity(goVideo);
+                        break;
 
+                }
             }
         });
         // 设置菜单
