@@ -29,6 +29,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.yyp.nc.R;
 import cn.yyp.nc.base.ParentWithNaviActivity;
+import cn.yyp.nc.greendao.Note;
+import cn.yyp.nc.greendao.NoteManager;
 import cn.yyp.nc.model.global.C;
 import cn.yyp.nc.util.FileUtil;
 import cn.yyp.nc.util.TimeUtil;
@@ -55,9 +57,12 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
     private VoiceManager voiceManager;
     int record_state = C.RecordState.STOP;
     int play_state = C.PlayState.STOP;
+    int note_source = C.FileSource.RECORD;
 
     String fileUrl,fileName;
     File audioFile;
+
+    private NoteManager noteManager;
 
     @Override
     protected String title() {
@@ -70,6 +75,8 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
         setContentView(R.layout.activity_create_note_voice);
         initNaviView();
         initVoiceManager();
+
+        noteManager = NoteManager.getInstance(this);
     }
 
     private void initVoiceManager(){
@@ -94,6 +101,8 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
                 lead_in.setText("禁止导入");
                 voice_play_rl.setVisibility(View.VISIBLE);
                 voice_name.setText(fileName);
+
+                note_source = C.FileSource.RECORD;
             }
         });
         voiceManager.setVoicePlayerListener(new VoiceManager.IVoicePlayerListener() {
@@ -122,8 +131,8 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
         switch (v.getId()){
             case R.id.btn_record_play_stop:
                 if(record_state == C.RecordState.STOP){//开始录制
-                    fileUrl = FileUtil.getDiscFileDir(this)+"/"+String.valueOf(System.currentTimeMillis())+".amr";
-                    fileName = FileUtil.getFileName(fileUrl, ".amr");
+                    fileUrl = FileUtil.getVoiceFileDir(this)+System.currentTimeMillis()+".amr";
+                    fileName = FileUtil.getFileName(fileUrl);
                     audioFile = new File(fileUrl);
                     try {
                         voiceManager.startRecord(audioFile);
@@ -157,6 +166,7 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
                         .start();
                 break;
             case R.id.btn_save:
+                saveVoiceNote();
                 break;
         }
     }
@@ -183,7 +193,7 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
                 List<String> list = data.getStringArrayListExtra(Constant.RESULT_INFO);
                 if(list.size()>0){
                     fileUrl = list.get(0);
-                    fileName = FileUtil.getFileName(fileUrl, ".amr");
+                    fileName = FileUtil.getFileName(fileUrl);
                     audioFile = new File(fileUrl);
                     record_play_stop.setEnabled(false);
                     lead_in.setEnabled(false);
@@ -191,8 +201,55 @@ public class CreateNoteVoiceActivity extends ParentWithNaviActivity {
                     lead_in.setText("禁止导入");
                     voice_play_rl.setVisibility(View.VISIBLE);
                     voice_name.setText(fileName);
+
+                    note_source = C.FileSource.LEADIN;
                 }
             }
+        }
+    }
+
+    private void saveVoiceNote(){
+        if(voice_title == null || voice_title.getText().toString().trim().isEmpty()){
+            showToast("标题不能为空");
+            return;
+        }
+
+        showPD("正在保存...");
+        Note note = new Note();
+        note.setId(System.currentTimeMillis());
+        note.setTitle(voice_title.getText().toString().trim());
+        note.setNoteType(C.NoteType.Voice);
+        note.setCreateTime(TimeUtil.getCurrTime(System.currentTimeMillis()));
+        note.setIsTop(false);
+        note.setIsStar(false);
+
+        if(fileUrl!=null && !fileUrl.isEmpty()){
+            if(note_source == C.FileSource.RECORD){
+                note.setVoiceUrl(fileUrl);
+            }else{ //导入的需要再次保存
+                String newPath = FileUtil.getVoiceFileDir(this)+System.currentTimeMillis()
+                        +FileUtil.getFileSuffix(fileUrl);
+                if(FileUtil.copyFile(fileUrl, newPath)) {
+                    note.setVoiceUrl(newPath);
+                }else{
+                    hidePD();
+                    showToast("音频保存失败");
+                    return;
+                }
+            }
+            // 保存笔记
+            try{
+                noteManager.insertNote(note);
+                hidePD();
+                showToast("保存成功");
+                finish();
+            }catch (Exception e){
+                hidePD();
+                showToast("保存失败："+e.getMessage());
+            }
+        }else{
+            hidePD();
+            showToast("暂无音频文件");
         }
     }
 

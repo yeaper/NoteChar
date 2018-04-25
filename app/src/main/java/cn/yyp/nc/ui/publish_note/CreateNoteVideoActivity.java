@@ -26,6 +26,8 @@ import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 import cn.yyp.nc.R;
 import cn.yyp.nc.base.ParentWithNaviActivity;
+import cn.yyp.nc.greendao.Note;
+import cn.yyp.nc.greendao.NoteManager;
 import cn.yyp.nc.model.global.C;
 import cn.yyp.nc.ui.MainActivity;
 import cn.yyp.nc.util.FileUtil;
@@ -53,7 +55,10 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
 
     private VideoManager videoManager;
     int record_state = C.RecordState.STOP;
+    int note_source = C.FileSource.RECORD;
     String fileUrl,fileName;
+
+    private NoteManager noteManager;
 
     @Override
     protected String title() {
@@ -65,6 +70,7 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note_video);
         initNaviView();
+        noteManager = NoteManager.getInstance(this);
 
         videoManager = VideoManager.getInstance();
         videoManager.initRecorder(surfaceView);
@@ -91,6 +97,8 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
                 surfaceView.setVisibility(View.GONE);
                 videoPlayer.setVisibility(View.VISIBLE);
                 videoPlayer.setUp("file://"+fileUrl, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+
+                note_source = C.FileSource.RECORD;
             }
         });
     }
@@ -101,8 +109,8 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
             case R.id.btn_record_play_stop:
                 if(record_state == C.RecordState.STOP){//开始录制
                     try {
-                        fileUrl = FileUtil.getDiscFileDir(this)+"/"+System.currentTimeMillis() + ".mp4";
-                        fileName = FileUtil.getFileName(fileUrl, ".mp4");
+                        fileUrl = FileUtil.getVideoFileDir(this)+System.currentTimeMillis() + ".mp4";
+                        fileName = FileUtil.getFileName(fileUrl);
                         videoManager.startRecord(fileUrl);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -123,7 +131,7 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
                         .start();
                 break;
             case R.id.btn_save:
-
+                saveVideoNote();
                 break;
         }
     }
@@ -150,7 +158,7 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
                 List<String> list = data.getStringArrayListExtra(Constant.RESULT_INFO);
                 if(list.size()>0){
                     fileUrl = list.get(0);
-                    fileName = FileUtil.getFileName(fileUrl, ".mp4");
+                    fileName = FileUtil.getFileName(fileUrl);
                     record_play_stop.setEnabled(false);
                     lead_in.setEnabled(false);
                     record_play_stop.setText("限制录制");
@@ -161,8 +169,55 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
                     surfaceView.setVisibility(View.GONE);
                     videoPlayer.setVisibility(View.VISIBLE);
                     videoPlayer.setUp("file://"+fileUrl, JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, "");
+
+                    note_source = C.FileSource.LEADIN;
                 }
             }
+        }
+    }
+
+    private void saveVideoNote(){
+        if(video_title == null || video_title.getText().toString().trim().isEmpty()){
+            showToast("标题不能为空");
+            return;
+        }
+
+        showPD("正在保存...");
+        Note note = new Note();
+        note.setId(System.currentTimeMillis());
+        note.setTitle(video_title.getText().toString().trim());
+        note.setNoteType(C.NoteType.Video);
+        note.setCreateTime(TimeUtil.getCurrTime(System.currentTimeMillis()));
+        note.setIsTop(false);
+        note.setIsStar(false);
+
+        if(fileUrl!=null && !fileUrl.isEmpty()){
+            if(note_source == C.FileSource.RECORD){
+                note.setVideoUrl(fileUrl);
+            }else{ //导入的需要再次保存
+                String newPath = FileUtil.getVideoFileDir(this)+System.currentTimeMillis()
+                        +FileUtil.getFileSuffix(fileUrl);
+                if(FileUtil.copyFile(fileUrl, newPath)) {
+                    note.setVideoUrl(newPath);
+                }else{
+                    hidePD();
+                    showToast("视频保存失败");
+                    return;
+                }
+            }
+            // 保存笔记
+            try{
+                noteManager.insertNote(note);
+                hidePD();
+                showToast("保存成功");
+                finish();
+            }catch (Exception e){
+                hidePD();
+                showToast("保存失败："+e.getMessage());
+            }
+        }else{
+            hidePD();
+            showToast("暂无视频文件");
         }
     }
 

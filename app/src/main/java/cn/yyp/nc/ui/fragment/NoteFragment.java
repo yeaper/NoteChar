@@ -1,12 +1,10 @@
 package cn.yyp.nc.ui.fragment;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,9 +15,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListPopupWindow;
 
-import com.leon.lfilepickerlibrary.LFilePicker;
-import com.leon.lfilepickerlibrary.utils.Constant;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,17 +23,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 import cn.yyp.nc.R;
-import cn.yyp.nc.adapter.SearchResFileAdapter;
+import cn.yyp.nc.adapter.SearchNoteAdapter;
 import cn.yyp.nc.base.ParentWithNaviFragment;
+import cn.yyp.nc.greendao.Note;
 import cn.yyp.nc.model.ResFile;
 import cn.yyp.nc.model.global.C;
 import cn.yyp.nc.ui.publish_note.CreateNoteImgTxtActivity;
 import cn.yyp.nc.ui.publish_note.CreateNoteVideoActivity;
 import cn.yyp.nc.ui.publish_note.CreateNoteVoiceActivity;
-import cn.yyp.nc.util.FileUtil;
 import cn.yyp.nc.util.Util;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * 资源页面
@@ -53,8 +46,8 @@ public class NoteFragment extends ParentWithNaviFragment {
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.rc_view)
     RecyclerView recyclerView;
-    SearchResFileAdapter adapter;
-    List<ResFile> datas = new ArrayList<>();
+    SearchNoteAdapter adapter;
+    List<Note> datas = new ArrayList<>();
 
     private ListPopupWindow mPopup;
 
@@ -74,7 +67,7 @@ public class NoteFragment extends ParentWithNaviFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mPopup = new ListPopupWindow(getActivity());
-        adapter = new SearchResFileAdapter();
+        adapter = new SearchNoteAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

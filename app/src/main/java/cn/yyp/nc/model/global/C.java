@@ -28,4 +28,9 @@ public class C {
         public static final int START = 1;
         public static final int STOP = 2;
     }
+
+    public static class FileSource{
+        public static final int RECORD = 1;
+        public static final int LEADIN = 2;
+    }
 }

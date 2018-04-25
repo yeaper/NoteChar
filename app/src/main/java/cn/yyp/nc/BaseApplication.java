@@ -15,6 +15,7 @@ import java.util.List;
 
 import cn.yyp.nc.base.UniversalImageLoader;
 import cn.bmob.newim.BmobIM;
+import cn.yyp.nc.greendao.DB;
 import cn.yyp.nc.util.MyImageLoader;
 
 //TODO 集成：1.7、自定义Application，并在AndroidManifest.xml中配置

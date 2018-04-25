@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -70,7 +71,9 @@ public class BaseFragment extends Fragment {
     }
 
     public void showToast(String msg){
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 }

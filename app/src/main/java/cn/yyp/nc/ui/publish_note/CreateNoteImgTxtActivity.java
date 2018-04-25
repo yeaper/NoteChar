@@ -20,8 +20,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.yyp.nc.R;
 import cn.yyp.nc.base.ParentWithNaviActivity;
+import cn.yyp.nc.greendao.Note;
+import cn.yyp.nc.greendao.NoteManager;
 import cn.yyp.nc.model.global.C;
+import cn.yyp.nc.util.FileUtil;
 import cn.yyp.nc.util.ImageLoadUtil;
+import cn.yyp.nc.util.TimeUtil;
 
 /**
  * 创建图文笔记
@@ -42,6 +46,7 @@ public class CreateNoteImgTxtActivity extends ParentWithNaviActivity {
     ImageView note_image_three;
 
     private List<String> imageList = new ArrayList<>();
+    private NoteManager noteManager;
 
 
     @Override
@@ -54,6 +59,7 @@ public class CreateNoteImgTxtActivity extends ParentWithNaviActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note_img_txt);
         initNaviView();
+        noteManager = NoteManager.getInstance(this);
 
         note_content.addTextChangedListener(new TextWatcher() {
             @Override
@@ -82,7 +88,7 @@ public class CreateNoteImgTxtActivity extends ParentWithNaviActivity {
                 selectImage();
                 break;
             case R.id.btn_save:
-
+                saveImgTxtNote();
                 break;
         }
     }
@@ -149,6 +155,56 @@ public class CreateNoteImgTxtActivity extends ParentWithNaviActivity {
                 note_image_two.setVisibility(View.VISIBLE);
                 note_image_three.setVisibility(View.VISIBLE);
                 break;
+        }
+    }
+
+    /**
+     * 保存笔记
+     */
+    private void saveImgTxtNote(){
+        if(note_title == null || note_title.getText().toString().trim().isEmpty()){
+            showToast("标题不能为空");
+            return;
+        }
+        if(note_content == null || note_content.getText().toString().trim().isEmpty()){
+            showToast("内容不能为空");
+            return;
+        }
+
+        showPD("正在保存...");
+        Note note = new Note();
+        note.setId(System.currentTimeMillis());
+        note.setTitle(note_title.getText().toString().trim());
+        note.setContent(note_content.getText().toString().trim());
+        note.setNoteType(C.NoteType.Img_Txt);
+        note.setCreateTime(TimeUtil.getCurrTime(System.currentTimeMillis()));
+        note.setIsTop(false);
+        note.setIsStar(false);
+
+        // 将图片保存到指定路径
+        if(imageList.size()>0){
+            for(int i=0;i<imageList.size();i++){
+                String newPath = FileUtil.getImgFileDir(this)+System.currentTimeMillis()
+                        +FileUtil.getFileSuffix(imageList.get(i));
+                if(FileUtil.copyFile(imageList.get(i), newPath)){
+                    imageList.set(i, newPath);
+                }else{
+                    hidePD();
+                    showToast("图片保存失败");
+                    return;
+                }
+            }
+            note.setImageList(imageList);
+        }
+        // 保存笔记
+        try{
+            noteManager.insertNote(note);
+            hidePD();
+            showToast("保存成功");
+            finish();
+        }catch (Exception e){
+            hidePD();
+            showToast("保存失败："+e.getMessage());
         }
     }
 }

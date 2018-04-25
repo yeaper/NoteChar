@@ -3,24 +3,6 @@
 
     <item
         is-multidex="false"
-        jar="C:\Users\yeape\.android\build-cache\67600dc47f3fd2dc39f73f41295cdc3c375d488b\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="c5908b18e51277294cbc18d609254b87df60d4ac">
-        <dex dex="D:\workspace_android\NoteChar\app\build\intermediates\pre-dexed\debug\classes_4d4f4d4fcd1691ed99f2f791ae941ed093a6c74f.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\yeape\.android\build-cache\b8b73739c456890ad47087f7be007a9ca4d59a8d\output\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="ecc959ced49f75ecbcb6ede4d17e9ecc10fc4c9c">
-        <dex dex="D:\workspace_android\NoteChar\app\build\intermediates\pre-dexed\debug\classes_db708cab5e9168ca3e4ee27c89d89a47b256f5b5.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="D:\workspace_android\NoteChar\app\libs\universal-image-loader-1.9.5.jar"
         jumboMode="false"
         optimize="true"
