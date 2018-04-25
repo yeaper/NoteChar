@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- WIFI状态 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:name=".BaseApplication"
@@ -89,8 +89,19 @@
         <activity android:name=".ui.ResetPwdActivity" />
         <activity android:name=".ui.publish_note.CreateNoteImgTxtActivity" />
         <activity android:name=".ui.publish_note.CreateNoteVoiceActivity" />
-        <activity android:name=".ui.publish_note.CreateNoteVideoActivity"
+        <activity
+            android:name=".ui.publish_note.CreateNoteVideoActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.MyStarNoteActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.show_note.ShowNoteImgTxtActivity" />
+        <activity android:name=".ui.show_note.ShowNoteVoiceActivity" />
+        <activity android:name=".ui.show_note.ShowNoteVideoActivity"></activity>
     </application>
 
 </manifest>

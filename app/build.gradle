@@ -33,7 +33,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    greendao{
+    greendao {
         schemaVersion 1
         targetGenDir 'src/main/java'
     }

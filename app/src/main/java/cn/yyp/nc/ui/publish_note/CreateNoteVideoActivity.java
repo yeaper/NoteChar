@@ -2,7 +2,6 @@ package cn.yyp.nc.ui.publish_note;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
@@ -10,14 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.leon.lfilepickerlibrary.LFilePicker;
 import com.leon.lfilepickerlibrary.utils.Constant;
 
-import org.w3c.dom.Text;
+import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,10 +23,10 @@ import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 import cn.yyp.nc.R;
 import cn.yyp.nc.base.ParentWithNaviActivity;
+import cn.yyp.nc.event.UpdateNoteListEvent;
 import cn.yyp.nc.greendao.Note;
 import cn.yyp.nc.greendao.NoteManager;
 import cn.yyp.nc.model.global.C;
-import cn.yyp.nc.ui.MainActivity;
 import cn.yyp.nc.util.FileUtil;
 import cn.yyp.nc.util.TimeUtil;
 import cn.yyp.nc.util.video.VideoManager;
@@ -210,6 +207,7 @@ public class CreateNoteVideoActivity extends ParentWithNaviActivity {
                 noteManager.insertNote(note);
                 hidePD();
                 showToast("保存成功");
+                EventBus.getDefault().post(new UpdateNoteListEvent());
                 finish();
             }catch (Exception e){
                 hidePD();

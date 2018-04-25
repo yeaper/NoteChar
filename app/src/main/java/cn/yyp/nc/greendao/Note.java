@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.yyp.nc.util.StringConverter;
@@ -13,7 +14,7 @@ import org.greenrobot.greendao.annotation.Generated;
  * 笔记
  */
 @Entity
-public class Note {
+public class Note implements Serializable{
 
     @Id
     private long id;

@@ -56,6 +56,18 @@ public class NoteManager {
     }
 
     /**
+     * 查询加星笔记
+     *
+     */
+    public List<Note> queryStarNote(){
+        return noteDao.queryBuilder()
+                .orderDesc(NoteDao.Properties.CreateTime)//通过 创建时间 这个属性进行降序排序
+                .where(NoteDao.Properties.IsStar.eq(true))//数据筛选
+                .build()
+                .list();
+    }
+
+    /**
      * 查询全部笔记
      *
      */

@@ -24,6 +24,7 @@ import cn.yyp.nc.event.AvatarUpdateEvent;
 import cn.yyp.nc.event.RetUsernameEvent;
 import cn.yyp.nc.model.UserModel;
 import cn.yyp.nc.ui.LoginActivity;
+import cn.yyp.nc.ui.MyStarNoteActivity;
 import cn.yyp.nc.ui.UserInfoActivity;
 import cn.yyp.nc.ui.SetActivity;
 import cn.bmob.newim.BmobIM;
@@ -77,6 +78,7 @@ public class PersonalFragment extends ParentWithNaviFragment {
                 startActivity(UserInfoActivity.class, bundle);
                 break;
             case R.id.layout_sign_note:
+                startActivity(MyStarNoteActivity.class, null);
                 break;
             case R.id.personal_set:
                 startActivity(new Intent(getActivity(), SetActivity.class));

@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.imnjh.imagepicker.SImagePicker;
 import com.imnjh.imagepicker.activity.PhotoPickerActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.yyp.nc.R;
 import cn.yyp.nc.base.ParentWithNaviActivity;
+import cn.yyp.nc.event.UpdateNoteListEvent;
 import cn.yyp.nc.greendao.Note;
 import cn.yyp.nc.greendao.NoteManager;
 import cn.yyp.nc.model.global.C;
@@ -201,6 +204,7 @@ public class CreateNoteImgTxtActivity extends ParentWithNaviActivity {
             noteManager.insertNote(note);
             hidePD();
             showToast("保存成功");
+            EventBus.getDefault().post(new UpdateNoteListEvent());
             finish();
         }catch (Exception e){
             hidePD();

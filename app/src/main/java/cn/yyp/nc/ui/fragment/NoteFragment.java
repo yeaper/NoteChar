@@ -22,6 +22,9 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +34,18 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 import cn.yyp.nc.R;
 import cn.yyp.nc.adapter.NoteAdapter;
+import cn.yyp.nc.base.ImageLoaderFactory;
 import cn.yyp.nc.base.ParentWithNaviFragment;
+import cn.yyp.nc.event.UpdateNoteListEvent;
 import cn.yyp.nc.greendao.Note;
 import cn.yyp.nc.greendao.NoteManager;
 import cn.yyp.nc.model.global.C;
 import cn.yyp.nc.ui.publish_note.CreateNoteImgTxtActivity;
 import cn.yyp.nc.ui.publish_note.CreateNoteVideoActivity;
 import cn.yyp.nc.ui.publish_note.CreateNoteVoiceActivity;
+import cn.yyp.nc.ui.show_note.ShowNoteImgTxtActivity;
+import cn.yyp.nc.ui.show_note.ShowNoteVideoActivity;
+import cn.yyp.nc.ui.show_note.ShowNoteVoiceActivity;
 import cn.yyp.nc.util.Util;
 
 /**
@@ -74,6 +82,7 @@ public class NoteFragment extends ParentWithNaviFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         noteManager = NoteManager.getInstance(getActivity());
+        EventBus.getDefault().register(this);
 
         mPopup = new ListPopupWindow(getActivity());
         noteAdapter = new NoteAdapter();
@@ -81,7 +90,20 @@ public class NoteFragment extends ParentWithNaviFragment {
         recyclerView.setSwipeItemClickListener(new SwipeItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle(); //携带笔记对象
+                bundle.putSerializable("note", noteAdapter.getDatas().get(position));
+                switch (noteAdapter.getDatas().get(position).getNoteType()){
+                    case C.NoteType.Img_Txt:
+                        startActivity(ShowNoteImgTxtActivity.class, bundle);
+                        break;
+                    case C.NoteType.Voice:
+                        startActivity(ShowNoteVoiceActivity.class, bundle);
+                        break;
+                    case C.NoteType.Video:
+                        startActivity(ShowNoteVideoActivity.class, bundle);
+                        break;
 
+                }
             }
         });
         // 设置菜单
@@ -152,15 +174,49 @@ public class NoteFragment extends ParentWithNaviFragment {
             // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
             menuBridge.closeMenu();
 
+            int position = menuBridge.getAdapterPosition();
+            Note note = noteAdapter.getDatas().get(position);//一定要获取排序后的列表
             switch (menuBridge.getPosition()){
                 case 0: //置顶
-
+                    try{
+                        if(note.isTop()){
+                            noteManager.updateNote(note.getId(), false, note.isStar());
+                            note.setTop(false);
+                            menuBridge.setText("置顶");
+                        }else{
+                            noteManager.updateNote(note.getId(), true, note.isStar());
+                            note.setTop(true);
+                            menuBridge.setText("取消置顶");
+                        }
+                        noteAdapter.setDatas(datas);
+                    }catch (Exception e){
+                        showToast("置顶失败");
+                    }
                     break;
                 case 1: //加星
-
+                    try{
+                        if(note.isStar()){
+                            noteManager.updateNote(note.getId(), note.isTop(), false);
+                            note.setStar(false);
+                            menuBridge.setText("加星");
+                        }else{
+                            noteManager.updateNote(note.getId(), note.isTop(), true);
+                            note.setStar(true);
+                            menuBridge.setText("取消加星");
+                        }
+                        noteAdapter.setDatas(datas);
+                    }catch (Exception e){
+                        showToast("加星失败");
+                    }
                     break;
                 case 2: //删除
-
+                    try{
+                        noteManager.deleteNote(note.getId());
+                        datas.remove(note);
+                        noteAdapter.setDatas(datas);
+                    }catch (Exception e){
+                        showToast("删除失败");
+                    }
                     break;
             }
         }
@@ -259,5 +315,17 @@ public class NoteFragment extends ParentWithNaviFragment {
             e.printStackTrace();
             showToast("暂无笔记");
         }
+    }
+
+    @Subscribe
+    public void onEventMainThread(UpdateNoteListEvent event){
+        //更新列表
+        initData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

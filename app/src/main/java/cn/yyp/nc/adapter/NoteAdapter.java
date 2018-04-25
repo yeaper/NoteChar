@@ -28,8 +28,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Note> notes = new ArrayList<>();
 
     public void setDatas(List<Note> list) {
-
-        notes.clear();
+        clear();
         if (null != list) {
             notes.addAll(list);
             sort();
@@ -40,6 +39,10 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void clear() {
         notes.clear();
         notifyDataSetChanged();
+    }
+
+    public List<Note> getDatas(){
+        return notes;
     }
 
     /**
